@@ -25,7 +25,7 @@ class MessageError extends Message
     }
 
     /**
-     * @return array{message:string}|array{message:string, type:string}|array{message:string, type:string, code:int}|array{message:string, code:int}
+     * @return array{message:string, type?:string, code?:int|string|null}
      */
     protected function toActionArray(): array
     {

@@ -19,4 +19,3 @@ trait Maker
         return new static(...$arguments);
     }
 }
-

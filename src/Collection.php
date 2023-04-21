@@ -21,7 +21,7 @@ final class Collection implements \JsonSerializable, Countable, IteratorAggregat
     private array $actions = [];
 
     /**
-     * @param Action[] $actions
+     * @param Action ...$actions
      */
     public function __construct(Action ...$actions)
     {

@@ -42,7 +42,7 @@ abstract class AbstractAction implements Action
     {
         return array_merge(
             [
-                'name' => $this->name(),
+                'name'  => $this->name(),
                 'order' => $this->order(),
             ],
             $this->private ? ['private' => $this->private] : [],

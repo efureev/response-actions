@@ -22,7 +22,7 @@ class Download extends AbstractAction
     }
 
     /**
-     * @return array{url:string, name:string, params: array<string, mixed>}|array{url:string, name:string}
+     * @return array{url:string, file:string, params?: array<string, mixed>}|array<'file'|'params'|'url'>
      */
     protected function toActionArray(): array
     {
