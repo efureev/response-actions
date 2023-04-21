@@ -25,6 +25,7 @@
 - Message
 - MessageError: Message with Code
 - Command
+- HttpCommand
 - Download
 - Event
 - Redirect

@@ -35,14 +35,19 @@ trait WithWrappers
         return self::make(StatusEnum::Info)->addAction(Message::make($message));
     }
 
+    public static function cmd(?string $description = null): self
+    {
+        return self::make(StatusEnum::Nothing)->addAction(Command::pending($description));
+    }
+
     public static function cmdFailed(?string $description = null): self
     {
-        return self::make(StatusEnum::Error)->addAction(Command::failed($description));
+        return self::make(StatusEnum::Error)->addAction(Command::makeFailed($description));
     }
 
     public static function cmdDone(?string $description = null): self
     {
-        return self::make(StatusEnum::Success)->addAction(Command::done($description));
+        return self::make(StatusEnum::Success)->addAction(Command::makeDone($description));
     }
 
     public static function redirect(string $url, string $target = Redirect::TARGET_BLANK, int $code = 302): self

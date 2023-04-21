@@ -6,17 +6,17 @@ namespace ResponseActions;
 
 trait HasResponseActions
 {
-    protected ResponseAction $responseAction;
+    protected ResponseAction $responseActions;
 
-    public function setActionMessage(ResponseAction $responseAction): static
+    public function setResponseActions(ResponseAction $responseAction): static
     {
-        $this->responseAction = $responseAction;
+        $this->responseActions = $responseAction;
 
         return $this;
     }
 
-    public function actionMessage(): ResponseAction
+    public function responseActions(): ResponseAction
     {
-        return $this->responseAction;
+        return $this->responseActions;
     }
 }

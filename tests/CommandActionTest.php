@@ -32,7 +32,7 @@ final class CommandActionTest extends TestCase
      */
     public function make(): void
     {
-        $action = Command::failed('Test');
+        $action = Command::makeFailed('Test');
 
         self::assertEquals('command', $action->name());
         self::assertEquals(0, $action->order());

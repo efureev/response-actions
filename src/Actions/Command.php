@@ -26,13 +26,46 @@ class Command extends AbstractAction
         return $result;
     }
 
-    public static function failed(string $description = null): static
+    public static function pending(string $description = null): static
+    {
+        return static::make(CommandStatus::Pending, $description);
+    }
+
+    public static function makeFailed(string $description = null): static
     {
         return static::make(CommandStatus::Failed, $description);
     }
 
-    public static function done(string $description = null): static
+    public static function makeDone(string $description = null): static
     {
         return static::make(CommandStatus::Done, $description);
+    }
+
+    public function description(string $description = null): void
+    {
+        if ($description !== null) {
+            $this->description = $description;
+        }
+    }
+
+    public function done(string $description = null): static
+    {
+        $this->status = CommandStatus::Done;
+        $this->description($description);
+
+        return $this;
+    }
+
+    public function failed(string $description = null): static
+    {
+        $this->status = CommandStatus::Failed;
+        $this->description($description);
+
+        return $this;
+    }
+
+    public function isFailed(): bool
+    {
+        return $this->status === CommandStatus::Failed;
     }
 }

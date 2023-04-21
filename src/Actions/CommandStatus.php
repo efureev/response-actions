@@ -9,4 +9,6 @@ enum CommandStatus: string
     case Done = 'done';
 
     case Failed = 'failed';
+
+    case Pending = 'pending';
 }
