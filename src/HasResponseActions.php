@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ResponseActions;
 
-trait HasResponseAction
+trait HasResponseActions
 {
     protected ResponseAction $responseAction;
 
