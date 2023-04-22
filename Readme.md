@@ -7,7 +7,7 @@
   // Logic data block
   "data": [],
   // Action Message block (can be overwritten)
-  "actionMessage": {
+  "_responseAction": {
     // Request Execution Status. See: \App\Shared\UI\Response\ActionMessage\Types\StatusEnum::name()
     "status": "success",
     // list of actions \App\Shared\UI\Response\ActionMessage\Actions\Action
