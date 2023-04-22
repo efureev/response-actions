@@ -18,10 +18,10 @@ final class CommandActionTest extends TestCase
     {
         $action = new Command(CommandStatus::Done);
 
-        self::assertEquals('command', $action->name());
+        self::assertEquals('cmd', $action->name());
         self::assertEquals(0, $action->order());
         self::assertEquals([
-            'name' => 'command',
+            'name' => 'cmd',
             'order' => 0,
             'status' => 'done',
         ], $action->toArray());
@@ -34,10 +34,10 @@ final class CommandActionTest extends TestCase
     {
         $action = Command::makeFailed('Test');
 
-        self::assertEquals('command', $action->name());
+        self::assertEquals('cmd', $action->name());
         self::assertEquals(0, $action->order());
         self::assertEquals([
-            'name' => 'command',
+            'name' => 'cmd',
             'order' => 0,
             'status' => 'failed',
             'description' => 'Test',
@@ -55,7 +55,7 @@ final class CommandActionTest extends TestCase
         self::assertEquals([
             'actions' => [
                 [
-                    'name' => 'command',
+                    'name' => 'cmd',
                     'order' => 0,
                     'status' => 'done',
                 ]

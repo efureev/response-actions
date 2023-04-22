@@ -8,7 +8,7 @@ use ResponseActions\Actions\Action;
 use ResponseActions\Actions\Message;
 
 /**
- * @method static self make(StatusEnum $status, Action ...$action)
+ * @method static self make(StatusEnum $status = StatusEnum::Nothing, Action ...$action)
  */
 class ResponseAction
 {
@@ -16,7 +16,7 @@ class ResponseAction
     use WithExtra;
     use WithWrappers;
 
-    private string $responseKey = 'actionMessage';
+    private string $responseKey = '_responseAction';
 
     private Collection $actions;
 

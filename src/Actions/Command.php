@@ -13,6 +13,11 @@ class Command extends AbstractAction
     {
     }
 
+    public function name(): string
+    {
+        return 'cmd';
+    }
+
     /**
      * @return array{status:string, description:string}|array{status:string}
      */

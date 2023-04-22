@@ -54,7 +54,7 @@ final class ResponseActionTest extends TestCase
         self::assertTrue($ra->is(StatusEnum::Error));
         self::assertCount(2, $ra->actions());
         self::assertEquals([
-            'actionMessage' =>
+            '_responseAction' =>
                 [
                     'actions' => [
                         [

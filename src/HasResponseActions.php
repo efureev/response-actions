@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ResponseActions;
 
+use ResponseActions\Actions\Action;
+
 trait HasResponseActions
 {
     protected ResponseAction $responseActions;
@@ -18,5 +20,12 @@ trait HasResponseActions
     public function responseActions(): ResponseAction
     {
         return $this->responseActions;
+    }
+
+    public function initResponseActions(Action ...$action): static
+    {
+        $this->responseActions = new ResponseAction(StatusEnum::Nothing, ...$action);
+
+        return $this;
     }
 }
