@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ResponseActions\Actions;
 
 use ResponseActions\Maker;
-use ResponseActions\Utils;
+use ResponseActions\Utils\Utils;
 
 abstract class AbstractAction implements Action
 {

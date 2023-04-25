@@ -6,6 +6,10 @@ namespace ResponseActions;
 
 use ResponseActions\Actions\Action;
 use ResponseActions\Actions\Message;
+use ResponseActions\Exceptions\InvalidStringEncoder;
+use ResponseActions\Utils\B64;
+
+use function json_encode;
 
 /**
  * @method static self make(StatusEnum $status = StatusEnum::Nothing, Action ...$action)
@@ -88,12 +92,34 @@ class ResponseAction
         return $result;
     }
 
-    public function wrap(string $key = null): array
+    public function wrap(?string $key = null): array
     {
         $key ??= $this->responseKey;
 
         return [
             $key => $this->toArray(),
         ];
+    }
+
+    public function toString(?string $key = null): ?string
+    {
+        $json = json_encode($this->wrap($key), 320);
+        return $json ?: null;
+    }
+
+    /**
+     * @throws InvalidStringEncoder
+     */
+    public function toEncodedString(?string $key = null, string $algo = 'B64Safe'): ?string
+    {
+        $str = $this->toString($key);
+        if ($str === null) {
+            return null;
+        }
+
+        return match ($algo) {
+            'B64Safe' => B64::encode($str),
+            default => throw new InvalidStringEncoder($algo),
+        };
     }
 }

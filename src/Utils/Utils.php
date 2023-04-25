@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ResponseActions;
+namespace ResponseActions\Utils;
 
 class Utils
 {
