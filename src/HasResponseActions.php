@@ -28,4 +28,11 @@ trait HasResponseActions
 
         return $this;
     }
+
+    public function initResponseActionsWithStatus(StatusEnum $status, Action ...$action): static
+    {
+        $this->responseActions = new ResponseAction($status, ...$action);
+
+        return $this;
+    }
 }

@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace ResponseActions\Actions;
 
 /**
- * @method static static make(CommandStatus $status, string $description = null)
+ * @method static static make(CommandStatus $status = CommandStatus::Pending, string $description = null)
  */
 class Command extends AbstractAction
 {
-    public function __construct(protected CommandStatus $status, protected ?string $description = null)
-    {
+    public function __construct(
+        protected CommandStatus $status = CommandStatus::Pending,
+        protected ?string $description = null
+    ) {
     }
 
     public function name(): string
