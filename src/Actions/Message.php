@@ -9,7 +9,7 @@ namespace ResponseActions\Actions;
  */
 class Message extends AbstractAction
 {
-    public function __construct(protected string $message, protected ?MessageTypeEnum $type = null)
+    public function __construct(public readonly string $message, protected ?MessageTypeEnum $type = null)
     {
     }
 
@@ -21,6 +21,11 @@ class Message extends AbstractAction
     public function setType(MessageTypeEnum $type): void
     {
         $this->type = $type;
+    }
+
+    public function getType(): MessageTypeEnum
+    {
+        return $this->type;
     }
 
     public function setTypeFromString(string $value): void
