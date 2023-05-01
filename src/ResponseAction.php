@@ -47,7 +47,7 @@ class ResponseAction
     public function addAction(Action ...$actions): self
     {
         foreach ($actions as $action) {
-            if ($action instanceof Message && !$action->hasType()) {
+            if ($action instanceof Message && $action->isNothing()) {
                 $action->setTypeFromString($this->status->value);
             }
         }

@@ -5,17 +5,19 @@ declare(strict_types=1);
 namespace ResponseActions\Actions;
 
 /**
- * @method static static make(string $message, ?MessageTypeEnum $type = null)
+ * @method static static make(string $message, MessageTypeEnum $type = MessageTypeEnum::Nothing)
  */
 class Message extends AbstractAction
 {
-    public function __construct(public readonly string $message, protected ?MessageTypeEnum $type = null)
-    {
+    public function __construct(
+        public readonly string $message,
+        protected MessageTypeEnum $type = MessageTypeEnum::Nothing
+    ) {
     }
 
-    public function hasType(): bool
+    public function isNothing(): bool
     {
-        return $this->type !== null;
+        return $this->type === MessageTypeEnum::Nothing;
     }
 
     public function setType(MessageTypeEnum $type): void
@@ -42,7 +44,7 @@ class Message extends AbstractAction
     protected function toActionArray(): array
     {
         $result = ['message' => $this->message];
-        if ($this->type !== null) {
+        if (!$this->isNothing()) {
             $result['type'] = $this->type->value;
         }
 
