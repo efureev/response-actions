@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace ResponseActions\Actions;
 
+use ResponseActions\WithExtra;
+
 /**
  * @method static static make(string $message, MessageTypeEnum $type = MessageTypeEnum::Nothing)
  */
 class Message extends AbstractAction
 {
+    use WithExtra;
+
     public function __construct(
         public readonly string $message,
         protected MessageTypeEnum $type = MessageTypeEnum::Nothing
@@ -46,6 +50,10 @@ class Message extends AbstractAction
         $result = ['message' => $this->message];
         if (!$this->isNothing()) {
             $result['type'] = $this->type->value;
+        }
+
+        if (!$this->isExtraEmpty()) {
+            $result['extra'] = $this->extra;
         }
 
         return $result;

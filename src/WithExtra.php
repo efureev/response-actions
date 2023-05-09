@@ -14,4 +14,9 @@ trait WithExtra
 
         return $this;
     }
+
+    public function isExtraEmpty(): bool
+    {
+        return count($this->extra) === 0;
+    }
 }
