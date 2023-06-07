@@ -110,7 +110,7 @@ class ResponseAction
     /**
      * @throws InvalidStringEncoder
      */
-    public function toEncodedString(?string $key = null, string $algo = 'B64Safe'): ?string
+    public function toEncodedString(?string $key = null, string $algo = 'b64Safe'): ?string
     {
         $str = $this->toString($key);
         if ($str === null) {
@@ -118,7 +118,8 @@ class ResponseAction
         }
 
         return match ($algo) {
-            'B64Safe' => B64::encode($str),
+            'b64Safe' => B64::encodeSafe($str),
+            'b64' => B64::encode($str),
             default => throw new InvalidStringEncoder($algo),
         };
     }

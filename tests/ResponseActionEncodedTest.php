@@ -56,13 +56,37 @@ final class ResponseActionEncodedTest extends TestCase
     /**
      * @test
      */
-    public function responseActionToEncodedString(): void
+    public function responseActionToEncodedStringB64(): void
     {
         $ra = new ResponseAction(StatusEnum::Success);
         $hash = 'eyJfcmVzcG9uc2VBY3Rpb24iOnsic3RhdHVzIjoic3VjY2VzcyJ9fQ==';
+        self::assertEquals($hash, $ra->toEncodedString(algo: 'b64'));
+
+        self::assertEquals($ra->toString(), B64::decodeSafe($hash));
+    }
+
+    /**
+     * @test
+     */
+    public function responseActionToEncodedStringB64Safe(): void
+    {
+        $ra = new ResponseAction(StatusEnum::Success);
+        $hash = 'eyJfcmVzcG9uc2VBY3Rpb24iOnsic3RhdHVzIjoic3VjY2VzcyJ9fQ~~';
         self::assertEquals($hash, $ra->toEncodedString());
 
         self::assertEquals($ra->toString(), B64::decodeSafe($hash));
+    }
+
+    /**
+     * @test
+     */
+    public function responseActionToEncodedStringWithKey(): void
+    {
+        $ra = new ResponseAction(StatusEnum::Success);
+        $hash = 'eyJtZXRhIjp7InN0YXR1cyI6InN1Y2Nlc3MifX0~';
+        self::assertEquals($hash, $ra->toEncodedString('meta'));
+
+        self::assertEquals($ra->toString('meta'), B64::decodeSafe($hash));
     }
 
 }
