@@ -75,7 +75,8 @@ final class PrivateActionsTest extends TestCase
                     'url' => 'https://example.com',
                     'target' => '_blank',
                     'order' => 5,
-                    'code' => 302
+                    'code' => 302,
+                    'type' => 'native'
                 ],
             ],
         ], $ra->toArray());

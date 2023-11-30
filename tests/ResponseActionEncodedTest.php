@@ -48,7 +48,7 @@ final class ResponseActionEncodedTest extends TestCase
 
 
         self::assertEquals(
-            '{"_responseAction":{"status":"success","actions":[{"name":"message","order":0,"message":"Operation has done!","type":"success"},{"name":"event","order":0,"event":"log","params":["saved!","continue watching..."]},{"name":"event","order":1,"private":"authUser","event":"refreshUser","params":[]},{"name":"download","order":2,"url":"https://example.com/file.pdf","file":"Readme.pdf"},{"name":"redirect","order":5,"url":"https://example.com","target":"_blank","code":302}]}}',
+            '{"_responseAction":{"status":"success","actions":[{"name":"message","order":0,"message":"Operation has done!","type":"success"},{"name":"event","order":0,"event":"log","params":["saved!","continue watching..."]},{"name":"event","order":1,"private":"authUser","event":"refreshUser","params":[]},{"name":"download","order":2,"url":"https://example.com/file.pdf","file":"Readme.pdf"},{"name":"redirect","order":5,"url":"https://example.com","target":"_blank","type":"native","code":302}]}}',
             $ra->toString()
         );
     }
