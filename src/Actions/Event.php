@@ -18,6 +18,11 @@ class Event extends AbstractAction
         $this->params = $params;
     }
 
+    public function name(): string
+    {
+        return 'event';
+    }
+
     /**
      * @return array{event:string, params:array<string,mixed>}
      */
