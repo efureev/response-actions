@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace ResponseActions\Actions;
 
+use Stringable;
+
 final class MessageError extends AbstractMessage
 {
     private const int DEFAULT_EMPTY_INT_CODE = 0;
 
-    public function __construct(string $message, private int|string|null $code = null)
-    {
+    public function __construct(
+        Stringable|string $message,
+        private int|string|null $code = null
+    ) {
         parent::__construct($message);
 
         $this->type = MessageTypeEnum::ERROR;

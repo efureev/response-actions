@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace ResponseActions\Actions;
 
 use ResponseActions\WithExtra;
+use Stringable;
 
 abstract class AbstractMessage extends AbstractAction
 {
     use WithExtra;
 
     public function __construct(
-        public readonly string $message,
+        public readonly Stringable|string $message,
     ) {
     }
 
@@ -46,7 +47,7 @@ abstract class AbstractMessage extends AbstractAction
      */
     protected function toActionArray(): array
     {
-        return ['message' => $this->message] + $this->addOptionalFields();
+        return ['message' => (string)$this->message] + $this->addOptionalFields();
     }
 
     /**

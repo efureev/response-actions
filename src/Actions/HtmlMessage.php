@@ -6,7 +6,7 @@ namespace ResponseActions\Actions;
 
 use Stringable;
 
-final class Message extends AbstractMessage
+class HtmlMessage extends AbstractMessage
 {
     public function __construct(
         Stringable|string $message,
@@ -15,6 +15,11 @@ final class Message extends AbstractMessage
         parent::__construct($message);
 
         $this->type = $type;
+    }
+
+    public function name(): string
+    {
+        return 'htmlMessage';
     }
 
     public static function info(string $message): self
