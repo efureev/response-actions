@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ResponseActions\Actions;
 
+use JsonSerializable;
 use ResponseActions\WithExtra;
 use Stringable;
 
@@ -12,7 +13,7 @@ abstract class AbstractMessage extends AbstractAction
     use WithExtra;
 
     public function __construct(
-        public readonly Stringable|string $message,
+        public readonly JsonSerializable|Stringable|string $message,
     ) {
     }
 
@@ -47,7 +48,16 @@ abstract class AbstractMessage extends AbstractAction
      */
     protected function toActionArray(): array
     {
-        return ['message' => (string)$this->message] + $this->addOptionalFields();
+        return [
+            'message' => $this->isString()
+                ? (string)$this->message
+                : $this->message,
+        ] + $this->addOptionalFields();
+    }
+
+    protected function isString(): bool
+    {
+        return is_string($this->message) || $this->message instanceof Stringable;
     }
 
     /**

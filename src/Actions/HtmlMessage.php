@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace ResponseActions\Actions;
 
+use JsonSerializable;
 use Stringable;
 
 class HtmlMessage extends AbstractMessage
 {
     public function __construct(
-        Stringable|string $message,
+        Stringable|JsonSerializable|string $message,
         MessageTypeEnum $type = MessageTypeEnum::NOTHING
     ) {
         parent::__construct($message);
