@@ -1,5 +1,21 @@
 # Response Action
 
+![](https://img.shields.io/badge/php-8.1|8.2-blue.svg)
+[![PHP Package](https://github.com/efureev/response-actions/actions/workflows/php.yml/badge.svg)](https://github.com/efureev/response-actions/actions/workflows/php.yml)
+[![Build Status](https://travis-ci.org/efureev/response-actions.svg?branch=master)](https://travis-ci.org/efureev/response-actions)
+[![Latest Stable Version](https://poser.pugx.org/efureev/response-actions/v/stable?format=flat)](https://packagist.org/packages/efureev/response-actions)
+[![Maintainability](https://qlty.sh/gh/efureev/projects/response-actions/maintainability.svg)](https://qlty.sh/gh/efureev/projects/response-actions)
+[![Code Coverage](https://qlty.sh/gh/efureev/projects/response-actions/coverage.svg)](https://qlty.sh/gh/efureev/projects/response-actions)
+[![codecov](https://codecov.io/github/efureev/response-actions/graph/badge.svg?token=ftgNXhJUxk)](https://codecov.io/github/efureev/response-actions)
+
+## Install
+
+For php >= 8.4
+
+```bash
+composer require efureev/response-actions "^2.0"
+```
+
 ## Action Message Response Structure
 
 ```json5
