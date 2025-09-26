@@ -34,20 +34,23 @@ final class CollectionTest extends TestCase
 
         self::assertCount(2, $collection);
 
-        self::assertEquals([
+        self::assertEquals(
             [
-                'name' => 'message',
-                'order' => 0,
-                'message' => 'Info',
-                'type' => MessageTypeEnum::INFO,
+                [
+                    'name'    => 'message',
+                    'order'   => 0,
+                    'message' => 'Info',
+                    'type'    => MessageTypeEnum::INFO,
+                ],
+                [
+                    'name'    => 'message',
+                    'order'   => 0,
+                    'message' => 'Success',
+                    'type'    => MessageTypeEnum::SUCCESS,
+                ],
             ],
-            [
-                'name' => 'message',
-                'order' => 0,
-                'message' => 'Success',
-                'type' => MessageTypeEnum::SUCCESS,
-            ]
-        ], $collection->toArray());
+            $collection->toArray()
+        );
     }
 
     #[Test]
@@ -57,20 +60,23 @@ final class CollectionTest extends TestCase
 
         self::assertCount(2, $collection);
 
-        self::assertEquals([
+        self::assertEquals(
             [
-                'name' => 'message',
-                'order' => 0,
-                'message' => 'Success',
-                'type' => MessageTypeEnum::SUCCESS,
+                [
+                    'name'    => 'message',
+                    'order'   => 0,
+                    'message' => 'Success',
+                    'type'    => MessageTypeEnum::SUCCESS,
+                ],
+                [
+                    'name'    => 'message',
+                    'order'   => 3,
+                    'message' => 'Info',
+                    'type'    => MessageTypeEnum::INFO,
+                ],
             ],
-            [
-                'name' => 'message',
-                'order' => 3,
-                'message' => 'Info',
-                'type' => MessageTypeEnum::INFO,
-            ],
-        ], $collection->toArray());
+            $collection->toArray()
+        );
     }
 
     #[Test]
@@ -80,21 +86,24 @@ final class CollectionTest extends TestCase
 
         self::assertCount(2, $collection);
 
-        self::assertEquals([
+        self::assertEquals(
             [
-                'name' => 'message',
-                'order' => -3,
-                'message' => 'Info',
-                'type' => MessageTypeEnum::INFO,
-            ],
-            [
-                'name' => 'message',
-                'order' => 0,
-                'message' => 'Success',
-                'type' => MessageTypeEnum::SUCCESS,
-            ],
+                [
+                    'name'    => 'message',
+                    'order'   => -3,
+                    'message' => 'Info',
+                    'type'    => MessageTypeEnum::INFO,
+                ],
+                [
+                    'name'    => 'message',
+                    'order'   => 0,
+                    'message' => 'Success',
+                    'type'    => MessageTypeEnum::SUCCESS,
+                ],
 
-        ], $collection->toArray());
+            ],
+            $collection->toArray()
+        );
     }
 
     #[Test]
@@ -102,20 +111,22 @@ final class CollectionTest extends TestCase
     {
         $collection = new Collection(Message::info('Info')->withOrder(1), Message::success('Success'));
 
-        $expectedJson = json_encode([
+        $expectedJson = json_encode(
             [
-                'name' => 'message',
-                'order' => 0,
-                'message' => 'Success',
-                'type' => MessageTypeEnum::SUCCESS,
-            ],
-            [
-                'name' => 'message',
-                'order' => 1,
-                'message' => 'Info',
-                'type' => MessageTypeEnum::INFO,
-            ],
-        ]);
+                [
+                    'name'    => 'message',
+                    'order'   => 0,
+                    'message' => 'Success',
+                    'type'    => MessageTypeEnum::SUCCESS,
+                ],
+                [
+                    'name'    => 'message',
+                    'order'   => 1,
+                    'message' => 'Info',
+                    'type'    => MessageTypeEnum::INFO,
+                ],
+            ]
+        );
 
         self::assertJsonStringEqualsJsonString($expectedJson, json_encode($collection));
     }

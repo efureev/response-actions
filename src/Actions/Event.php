@@ -8,9 +8,11 @@ class Event extends AbstractAction
 {
     use WithParams;
 
+    /**
+     * @param array<string, mixed> $params
+     */
     public function __construct(
         protected string $event,
-        /** @var array<string, mixed> $params */
         array $params = []
     ) {
         $this->params = $params;

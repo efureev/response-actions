@@ -11,6 +11,9 @@ trait WithExtra
      */
     protected array $extra = [];
 
+    /**
+     * @param array<string, mixed> $extra
+     */
     public function withExtra(array $extra): static
     {
         $this->extra = $extra;

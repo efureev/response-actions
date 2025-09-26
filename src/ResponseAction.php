@@ -21,6 +21,9 @@ class ResponseAction
 
     private string $responseKey = self::DEFAULT_RESPONSE_KEY;
 
+    /**
+     * @var Collection<int,Action>
+     */
     private Collection $actions;
 
     public function __construct(private StatusEnum $status = StatusEnum::NOTHING, Action ...$action)
@@ -38,6 +41,9 @@ class ResponseAction
         return $this->responseKey;
     }
 
+    /**
+     * @return Collection<int, Action>
+     */
     public function actions(): Collection
     {
         return $this->actions;
@@ -96,6 +102,9 @@ class ResponseAction
         return !$this->actions->isEmpty();
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function wrap(?string $key = null): array
     {
         $key ??= $this->responseKey;

@@ -23,11 +23,14 @@ final class ResponseActionEncodedTest extends TestCase
         self::assertFalse($ra->isError());
         self::assertTrue($ra->is(StatusEnum::SUCCESS));
         self::assertCount(0, $ra->actions());
-        self::assertEquals([
-            'actions' => [
-                'status' => StatusEnum::SUCCESS
-            ]
-        ], $ra->wrap('actions'));
+        self::assertEquals(
+            [
+                'actions' => [
+                    'status' => StatusEnum::SUCCESS,
+                ],
+            ],
+            $ra->wrap('actions')
+        );
 
         self::assertEquals('{"_responseAction":{"status":"success"}}', $ra->toString());
     }
@@ -53,7 +56,7 @@ final class ResponseActionEncodedTest extends TestCase
     #[Test]
     public function responseActionToEncodedStringB64(): void
     {
-        $ra = new ResponseAction(StatusEnum::SUCCESS);
+        $ra   = new ResponseAction(StatusEnum::SUCCESS);
         $hash = 'eyJfcmVzcG9uc2VBY3Rpb24iOnsic3RhdHVzIjoic3VjY2VzcyJ9fQ==';
         self::assertEquals($hash, $ra->toEncodedString(algo: 'b64'));
 
@@ -63,7 +66,7 @@ final class ResponseActionEncodedTest extends TestCase
     #[Test]
     public function responseActionToEncodedStringB64Safe(): void
     {
-        $ra = new ResponseAction(StatusEnum::SUCCESS);
+        $ra   = new ResponseAction(StatusEnum::SUCCESS);
         $hash = 'eyJfcmVzcG9uc2VBY3Rpb24iOnsic3RhdHVzIjoic3VjY2VzcyJ9fQ~~';
         self::assertEquals($hash, $ra->toEncodedString());
 
@@ -73,11 +76,10 @@ final class ResponseActionEncodedTest extends TestCase
     #[Test]
     public function responseActionToEncodedStringWithKey(): void
     {
-        $ra = new ResponseAction(StatusEnum::SUCCESS);
+        $ra   = new ResponseAction(StatusEnum::SUCCESS);
         $hash = 'eyJtZXRhIjp7InN0YXR1cyI6InN1Y2Nlc3MifX0~';
         self::assertEquals($hash, $ra->toEncodedString('meta'));
 
         self::assertEquals($ra->toString('meta'), B64::decodeUrlSafe($hash));
     }
-
 }

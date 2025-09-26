@@ -10,10 +10,12 @@ class Download extends AbstractAction
 {
     use WithParams;
 
+    /**
+     * @param array<string, mixed> $params
+     */
     public function __construct(
         protected string $url,
         protected string $name,
-        /** @var array<string, mixed> $params */
         array $params = []
     ) {
         $this->params = $params;

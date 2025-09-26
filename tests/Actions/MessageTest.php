@@ -18,9 +18,7 @@ class MessageTest extends TestCase
 
         $result = $this->invokeToActionArray($message);
 
-        $expected = [
-            'message' => 'Test message',
-        ];
+        $expected = ['message' => 'Test message'];
 
         $this->assertEquals($expected, $result);
     }
@@ -36,7 +34,7 @@ class MessageTest extends TestCase
 
         $expected = [
             'message' => 'Test message',
-            'type' => MessageTypeEnum::SUCCESS,
+            'type'    => MessageTypeEnum::SUCCESS,
         ];
 
         $this->assertEquals($expected, $result);
@@ -54,7 +52,7 @@ class MessageTest extends TestCase
 
         $expected = [
             'message' => 'Test message',
-            'extra' => [
+            'extra'   => [
                 'key1' => 'value1',
                 'key2' => 'value2',
             ],
@@ -76,10 +74,8 @@ class MessageTest extends TestCase
 
         $expected = [
             'message' => 'Test message',
-            'type' => MessageTypeEnum::INFO,
-            'extra' => [
-                'key1' => 'value1',
-            ],
+            'type'    => MessageTypeEnum::INFO,
+            'extra'   => ['key1' => 'value1'],
         ];
 
         $this->assertEquals($expected, $result);
@@ -96,7 +92,7 @@ class MessageTest extends TestCase
 
         $expected = [
             'message' => 'This is an error message',
-            'type' => MessageTypeEnum::ERROR,
+            'type'    => MessageTypeEnum::ERROR,
         ];
 
         $this->assertEquals($expected, $result);
@@ -113,7 +109,7 @@ class MessageTest extends TestCase
 
         $expected = [
             'message' => 'This is a warning message',
-            'type' => MessageTypeEnum::WARNING,
+            'type'    => MessageTypeEnum::WARNING,
         ];
 
         $this->assertEquals($expected, $result);
@@ -130,7 +126,7 @@ class MessageTest extends TestCase
 
         $expected = [
             'message' => 'Test message',
-            'type' => MessageTypeEnum::ERROR,
+            'type'    => MessageTypeEnum::ERROR,
         ];
 
         $this->assertEquals($expected, $result);
@@ -142,7 +138,7 @@ class MessageTest extends TestCase
     private function invokeToActionArray(Message $message): array
     {
         $reflection = new \ReflectionClass($message);
-        $method = $reflection->getMethod('toActionArray');
+        $method     = $reflection->getMethod('toActionArray');
         $method->setAccessible(true);
         return $method->invoke($message);
     }

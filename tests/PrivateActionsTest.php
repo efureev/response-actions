@@ -29,57 +29,63 @@ final class PrivateActionsTest extends TestCase
             );
 
         self::assertCount(7, $ra->actions());
-        self::assertEquals([
-            'status' => StatusEnum::SUCCESS,
-            'actions' => [
-                [
-                    'name' => 'event',
-                    'event' => 'log',
-                    'params' => ['saved!', 'continue watching...'],
-                    'order' => 0,
-                ],
-                [
-                    'name' => 'event',
-                    'event' => 'uploadModuleData',
-                    'private' => true,
-                    'params' => [],
-                    'order' => 0,
-                ],
-                [
-                    'name' => 'event',
-                    'event' => 'uploadData',
-                    'private' => 'menu',
-                    'params' => [],
-                    'order' => 0,
-                ],
-                [
-                    'name' => 'message',
-                    'message' => 'Operation has done!',
-                    'type' => MessageTypeEnum::SUCCESS,
-                    'order' => 0,
-                ],
-                [
-                    'name' => 'event',
-                    'event' => 'refreshUser',
-                    'private' => 'authUser',
-                    'params' => [],
-                    'order' => 1,
-                ],
-                [
-                    'name' => 'download',
-                    'url' => 'https://example.com/file.pdf',
-                    'file' => 'Readme.pdf',
-                    'order' => 2,
-                ],
-                [
-                    'name' => 'redirect',
-                    'url' => 'https://example.com',
-                    'target' => '_blank',
-                    'order' => 5,
-                    'code' => 302,
-                    'type' => 'native'
+        self::assertEquals(
+            [
+                'status'  => StatusEnum::SUCCESS,
+                'actions' => [
+                    [
+                        'name'   => 'event',
+                        'event'  => 'log',
+                        'params' => [
+                            'saved!',
+                            'continue watching...',
+                        ],
+                        'order'  => 0,
+                    ],
+                    [
+                        'name'    => 'event',
+                        'event'   => 'uploadModuleData',
+                        'private' => true,
+                        'params'  => [],
+                        'order'   => 0,
+                    ],
+                    [
+                        'name'    => 'event',
+                        'event'   => 'uploadData',
+                        'private' => 'menu',
+                        'params'  => [],
+                        'order'   => 0,
+                    ],
+                    [
+                        'name'    => 'message',
+                        'message' => 'Operation has done!',
+                        'type'    => MessageTypeEnum::SUCCESS,
+                        'order'   => 0,
+                    ],
+                    [
+                        'name'    => 'event',
+                        'event'   => 'refreshUser',
+                        'private' => 'authUser',
+                        'params'  => [],
+                        'order'   => 1,
+                    ],
+                    [
+                        'name'  => 'download',
+                        'url'   => 'https://example.com/file.pdf',
+                        'file'  => 'Readme.pdf',
+                        'order' => 2,
+                    ],
+                    [
+                        'name'   => 'redirect',
+                        'url'    => 'https://example.com',
+                        'target' => '_blank',
+                        'order'  => 5,
+                        'code'   => 302,
+                        'type'   => 'native',
+                    ],
                 ],
             ],
-        ], $ra->toArray());
+            $ra->toArray()
+        );
     }
 }

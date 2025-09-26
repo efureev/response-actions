@@ -2,6 +2,7 @@
 
 namespace ResponseActions\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use ResponseActions\Actions\Command;
 use ResponseActions\Actions\CommandStatus;
@@ -19,10 +20,14 @@ class WithWrappersTest extends TestCase
      * Tests that the static 'event' method creates a ResponseAction
      * with the expected event name and parameters.
      */
-    public function testEventCreatesResponseAction()
+    #[Test]
+    public function eventCreatesResponseAction()
     {
-        $eventName = 'user.logged_in';
-        $eventParams = ['user_id' => 123, 'timestamp' => '2025-09-26T10:30:00Z'];
+        $eventName   = 'user.logged_in';
+        $eventParams = [
+            'user_id'   => 123,
+            'timestamp' => '2025-09-26T10:30:00Z',
+        ];
 
         $response = ResponseAction::event($eventName, $eventParams);
 
@@ -42,7 +47,8 @@ class WithWrappersTest extends TestCase
      * Tests that the static 'event' method works correctly when
      * no parameters are provided.
      */
-    public function testEventCreatesResponseActionWithoutParams()
+    #[Test]
+    public function eventCreatesResponseActionWithoutParams()
     {
         $eventName = 'app.started';
 
@@ -64,10 +70,11 @@ class WithWrappersTest extends TestCase
      * Tests that the static 'download' method creates a ResponseAction
      * with the expected URL, name, and parameters.
      */
-    public function testDownloadCreatesResponseAction()
+    #[Test]
+    public function downloadCreatesResponseAction()
     {
-        $url = 'https://example.com/file.zip';
-        $name = 'file.zip';
+        $url    = 'https://example.com/file.zip';
+        $name   = 'file.zip';
         $params = ['access_token' => 'abc123'];
 
         $response = ResponseAction::download($url, $name, $params);
@@ -91,9 +98,10 @@ class WithWrappersTest extends TestCase
      * Tests that the static 'download' method works correctly when
      * no parameters are provided.
      */
-    public function testDownloadCreatesResponseActionWithoutParams()
+    #[Test]
+    public function downloadCreatesResponseActionWithoutParams()
     {
-        $url = 'https://example.com/file.zip';
+        $url  = 'https://example.com/file.zip';
         $name = 'file.zip';
 
         $response = ResponseAction::download($url, $name);
@@ -110,18 +118,19 @@ class WithWrappersTest extends TestCase
         $this->assertEquals($url, $action->toArray()['url']);
         $this->assertEquals($name, $action->toArray()['file']);
         $this->assertEquals('download', $action->toArray()['name']);
-        $this->assertEmpty($action->toArray()['params']);
+        $this->assertArrayNotHasKey('params', $action->toArray());
     }
 
     /**
      * Tests that the static 'redirect' method creates a ResponseAction
      * with the expected URL, target, and HTTP code.
      */
-    public function testRedirectCreatesResponseAction()
+    #[Test]
+    public function redirectCreatesResponseAction()
     {
-        $url = 'https://example.com';
+        $url    = 'https://example.com';
         $target = Redirect::TARGET_TOP;
-        $code = 301;
+        $code   = 301;
 
         $response = ResponseAction::redirect($url, $target, $code);
 
@@ -143,7 +152,8 @@ class WithWrappersTest extends TestCase
      * Tests that the static 'redirect' method works correctly when
      * no target or HTTP code is provided.
      */
-    public function testRedirectCreatesResponseActionWithDefaultTargetAndCode()
+    #[Test]
+    public function redirectCreatesResponseActionWithDefaultTargetAndCode()
     {
         $url = 'https://example.com';
 
@@ -168,7 +178,8 @@ class WithWrappersTest extends TestCase
      * Tests that the static 'cmdDone' method creates a ResponseAction
      * with the expected status and a Command action marked as 'done'.
      */
-    public function testCmdDoneCreatesResponseActionWithDescription()
+    #[Test]
+    public function cmdDoneCreatesResponseActionWithDescription()
     {
         $description = 'Task completed successfully';
 
@@ -191,7 +202,8 @@ class WithWrappersTest extends TestCase
      * Tests that the static 'cmdDone' method creates a ResponseAction
      * with a 'done' Command action when no description is provided.
      */
-    public function testCmdDoneCreatesResponseActionWithoutDescription()
+    #[Test]
+    public function cmdDoneCreatesResponseActionWithoutDescription()
     {
         $response = ResponseAction::cmdDone();
 
@@ -204,7 +216,8 @@ class WithWrappersTest extends TestCase
         $action = $actions->first();
         $this->assertInstanceOf(Command::class, $action);
         $this->assertEquals('cmd', $action->name());
-        $this->assertNull($action->toArray()['description']);
+        $this->assertArrayNotHasKey('description', $action->toArray());
+
         $this->assertEquals(CommandStatus::Done, $action->toArray()['status']);
     }
 
@@ -212,7 +225,8 @@ class WithWrappersTest extends TestCase
      * Tests that the static 'cmdFailed' method creates a ResponseAction
      * with the expected status and a Command action marked as 'failed'.
      */
-    public function testCmdFailedCreatesResponseActionWithDescription()
+    #[Test]
+    public function cmdFailedCreatesResponseActionWithDescription()
     {
         $description = 'Task failed due to an error';
 
@@ -235,7 +249,8 @@ class WithWrappersTest extends TestCase
      * Tests that the static 'cmdFailed' method creates a ResponseAction
      * with a 'failed' Command action when no description is provided.
      */
-    public function testCmdFailedCreatesResponseActionWithoutDescription()
+    #[Test]
+    public function cmdFailedCreatesResponseActionWithoutDescription()
     {
         $response = ResponseAction::cmdFailed();
 
@@ -248,7 +263,7 @@ class WithWrappersTest extends TestCase
         $action = $actions->first();
         $this->assertInstanceOf(Command::class, $action);
         $this->assertEquals('cmd', $action->name());
-        $this->assertNull($action->toArray()['description']);
+        $this->assertArrayNotHasKey('description', $action->toArray());
         $this->assertEquals(CommandStatus::Failed, $action->toArray()['status']);
     }
 
@@ -256,7 +271,8 @@ class WithWrappersTest extends TestCase
      * Tests that the static 'infoMessage' method creates a ResponseAction
      * with the 'INFO' status and a Message action of correct type.
      */
-    public function testInfoMessageCreatesResponseAction()
+    #[Test]
+    public function infoMessageCreatesResponseAction()
     {
         $message = 'This is an informational message';
 
@@ -278,7 +294,8 @@ class WithWrappersTest extends TestCase
      * Tests that the static 'warningMessage' method creates a ResponseAction
      * with the 'WARNING' status and a Message action of correct type.
      */
-    public function testWarningMessageCreatesResponseAction()
+    #[Test]
+    public function warningMessageCreatesResponseAction()
     {
         $message = 'This is a warning message';
 
@@ -300,7 +317,8 @@ class WithWrappersTest extends TestCase
      * Tests that the static 'errorMessage' method creates a ResponseAction
      * with the 'ERROR' status and a Message action of correct type.
      */
-    public function testErrorMessageCreatesResponseAction()
+    #[Test]
+    public function errorMessageCreatesResponseAction()
     {
         $message = 'This is an error message';
 
@@ -322,7 +340,8 @@ class WithWrappersTest extends TestCase
      * Tests that the static 'cmd' method creates a ResponseAction
      * with a pending Command action and the expected description.
      */
-    public function testCmdCreatesResponseActionWithDescription()
+    #[Test]
+    public function cmdCreatesResponseActionWithDescription()
     {
         $description = 'Pending task description';
 
@@ -345,7 +364,8 @@ class WithWrappersTest extends TestCase
      * Tests that the static 'cmd' method creates a ResponseAction
      * with a pending Command action when no description is provided.
      */
-    public function testCmdCreatesResponseActionWithoutDescription()
+    #[Test]
+    public function cmdCreatesResponseActionWithoutDescription()
     {
         $response = ResponseAction::cmd();
 
@@ -358,7 +378,7 @@ class WithWrappersTest extends TestCase
         $action = $actions->first();
         $this->assertInstanceOf(Command::class, $action);
         $this->assertEquals('cmd', $action->name());
-        $this->assertNull($action->toArray()['description']);
+        $this->assertArrayNotHasKey('description', $action->toArray());
         $this->assertFalse($action->isFailed());
     }
 }

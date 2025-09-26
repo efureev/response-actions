@@ -20,11 +20,14 @@ final class CommandActionTest extends TestCase
 
         self::assertEquals('cmd', $action->name());
         self::assertEquals(0, $action->order());
-        self::assertEquals([
-            'name' => 'cmd',
-            'order' => 0,
-            'status' => CommandStatus::Done,
-        ], $action->toArray());
+        self::assertEquals(
+            [
+                'name'   => 'cmd',
+                'order'  => 0,
+                'status' => CommandStatus::Done,
+            ],
+            $action->toArray()
+        );
     }
 
     #[Test]
@@ -34,12 +37,15 @@ final class CommandActionTest extends TestCase
 
         self::assertEquals('cmd', $action->name());
         self::assertEquals(0, $action->order());
-        self::assertEquals([
-            'name' => 'cmd',
-            'order' => 0,
-            'status' => CommandStatus::Failed,
-            'description' => 'Test',
-        ], $action->toArray());
+        self::assertEquals(
+            [
+                'name'        => 'cmd',
+                'order'       => 0,
+                'status'      => CommandStatus::Failed,
+                'description' => 'Test',
+            ],
+            $action->toArray()
+        );
     }
 
     #[Test]
@@ -48,15 +54,18 @@ final class CommandActionTest extends TestCase
         $ra = ResponseAction::cmdDone();
         self::assertFalse($ra->isError());
         self::assertCount(1, $ra->actions());
-        self::assertEquals([
-            'actions' => [
-                [
-                    'name' => 'cmd',
-                    'order' => 0,
-                    'status' => CommandStatus::Done,
-                ]
+        self::assertEquals(
+            [
+                'actions' => [
+                    [
+                        'name'   => 'cmd',
+                        'order'  => 0,
+                        'status' => CommandStatus::Done,
+                    ],
+                ],
+                'status'  => StatusEnum::SUCCESS,
             ],
-            'status' => StatusEnum::SUCCESS
-        ], $ra->toArray());
+            $ra->toArray()
+        );
     }
 }

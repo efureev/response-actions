@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace ResponseActions\Actions;
 
-class MessageError extends Message
+final class MessageError extends AbstractMessage
 {
     private const int DEFAULT_EMPTY_INT_CODE = 0;
 
     public function __construct(string $message, private int|string|null $code = null)
     {
-        parent::__construct($message, MessageTypeEnum::ERROR);
+        parent::__construct($message);
+
+        $this->type = MessageTypeEnum::ERROR;
     }
 
     public function code(): int|string|null
@@ -28,7 +30,7 @@ class MessageError extends Message
     /**
      * @return array{
      *   message:string,
-     *   type?:string,
+     *   type?:MessageTypeEnum,
      *   extra?:array<string, mixed>,
      *   code?:int|string|null
      * }
@@ -59,6 +61,6 @@ class MessageError extends Message
             return $this->code === self::DEFAULT_EMPTY_INT_CODE;
         }
 
-        return $this->code === null;
+        return true;
     }
 }

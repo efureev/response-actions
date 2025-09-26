@@ -2,6 +2,7 @@
 
 namespace ResponseActions\Tests\Actions;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use ResponseActions\Actions\Action;
 
@@ -10,7 +11,8 @@ class ActionTest extends TestCase
     /**
      * Tests that the name method in Action returns the expected string.
      */
-    public function testNameReturnsExpectedValue()
+    #[Test]
+    public function nameReturnsExpectedValue()
     {
         $expectedName = 'TestAction';
 

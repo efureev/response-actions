@@ -39,7 +39,7 @@
     "cs-fix": "@php ./vendor/bin/phpcbf",
     "phpunit": "@php ./vendor/bin/phpunit --no-coverage --testdox --colors=always",
     "phpunit-cover": "XDEBUG_MODE=coverage php ./vendor/bin/phpunit --coverage-text",
-    "phpstan": "@php ./vendor/bin/phpstan analyze -c ./phpstan.neon.dist --no-progress --ansi",
+    "phpstan": "@php ./vendor/bin/phpstan analyze -c ./phpstan.neon --no-progress --ansi",
     "test": [
       "@phpstan",
       "@phpunit"

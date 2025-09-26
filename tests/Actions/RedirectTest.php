@@ -12,12 +12,12 @@ class RedirectTest extends TestCase
      */
     public function testToActionArrayWithNativeRedirect(): void
     {
-        $url = 'https://example.com';
+        $url    = 'https://example.com';
         $target = Redirect::TARGET_SELF;
-        $code = 301;
-        $type = Redirect::TYPE_NATIVE;
+        $code   = 301;
+        $type   = Redirect::TYPE_NATIVE;
 
-        $redirect = new Redirect($url, $target, $code, $type);
+        $redirect      = new Redirect($url, $target, $code, $type);
         $expectedArray = [
             'url'    => $url,
             'target' => $target,
@@ -35,10 +35,10 @@ class RedirectTest extends TestCase
      */
     public function testConstructorWithAllArguments(): void
     {
-        $url = 'https://example.org';
+        $url    = 'https://example.org';
         $target = Redirect::TARGET_PARENT;
-        $code = 307;
-        $type = Redirect::TYPE_ROUTER;
+        $code   = 307;
+        $type   = Redirect::TYPE_ROUTER;
 
         $redirect = new Redirect($url, $target, $code, $type);
 
@@ -68,7 +68,7 @@ class RedirectTest extends TestCase
      */
     public function testConstructorWithCustomTarget(): void
     {
-        $url = 'https://example.com';
+        $url    = 'https://example.com';
         $target = Redirect::TARGET_SELF;
 
         $redirect = new Redirect($url, $target);
@@ -84,7 +84,7 @@ class RedirectTest extends TestCase
      */
     public function testConstructorWithCustomCode(): void
     {
-        $url = 'https://example.com';
+        $url  = 'https://example.com';
         $code = 307;
 
         $redirect = new Redirect($url, Redirect::TARGET_BLANK, $code);
@@ -101,10 +101,10 @@ class RedirectTest extends TestCase
      */
     public function testConstructorWithCustomArguments(): void
     {
-        $url = 'https://example.net';
+        $url    = 'https://example.net';
         $target = Redirect::TARGET_PARENT;
-        $code = 301;
-        $type = Redirect::TYPE_ROUTER;
+        $code   = 301;
+        $type   = Redirect::TYPE_ROUTER;
 
         $redirect = new Redirect($url, $target, $code, $type);
 
@@ -121,7 +121,7 @@ class RedirectTest extends TestCase
     {
         $url = 'https://default.com';
 
-        $redirect = new Redirect($url);
+        $redirect      = new Redirect($url);
         $expectedArray = [
             'url'    => $url,
             'target' => Redirect::TARGET_BLANK,
@@ -139,14 +139,14 @@ class RedirectTest extends TestCase
     {
         $url = 'https://example.com';
 
-        $redirect = Redirect::native($url);
+        $redirect      = Redirect::native($url);
         $expectedArray = [
-            'name' => 'redirect',
-            'order' => 0,
-            'url' => $url,
+            'name'   => 'redirect',
+            'order'  => 0,
+            'url'    => $url,
             'target' => Redirect::TARGET_BLANK,
-            'type' => Redirect::TYPE_NATIVE,
-            'code' => 302,
+            'type'   => Redirect::TYPE_NATIVE,
+            'code'   => 302,
         ];
 
         $this->assertSame($expectedArray, $redirect->toArray());
@@ -157,18 +157,18 @@ class RedirectTest extends TestCase
      */
     public function testNativeMethodCreatesRedirectWithCustomTargetAndCode(): void
     {
-        $url = 'https://custom.com';
+        $url    = 'https://custom.com';
         $target = Redirect::TARGET_PARENT;
-        $code = 307;
+        $code   = 307;
 
-        $redirect = Redirect::native($url, $target, $code);
+        $redirect      = Redirect::native($url, $target, $code);
         $expectedArray = [
-            'name' => 'redirect',
-            'order' => 0,
-            'url' => $url,
+            'name'   => 'redirect',
+            'order'  => 0,
+            'url'    => $url,
             'target' => $target,
-            'type' => Redirect::TYPE_NATIVE,
-            'code' => $code,
+            'type'   => Redirect::TYPE_NATIVE,
+            'code'   => $code,
         ];
 
         $this->assertSame($expectedArray, $redirect->toArray());
@@ -181,7 +181,7 @@ class RedirectTest extends TestCase
     {
         $url = '/router-path';
 
-        $redirect = Redirect::router($url);
+        $redirect      = Redirect::router($url);
         $expectedArray = [
             'url'    => $url,
             'target' => Redirect::TARGET_BLANK,
@@ -198,7 +198,7 @@ class RedirectTest extends TestCase
     private function invokeToActionArray(Redirect $redirect): array
     {
         $reflection = new \ReflectionClass($redirect);
-        $method = $reflection->getMethod('toActionArray');
+        $method     = $reflection->getMethod('toActionArray');
         $method->setAccessible(true);
 
         return $method->invoke($redirect);
@@ -209,7 +209,7 @@ class RedirectTest extends TestCase
      */
     public function testWithTypeMethodChangesType(): void
     {
-        $url = 'https://example.com';
+        $url      = 'https://example.com';
         $redirect = new Redirect($url);
 
         $redirect->withType(Redirect::TYPE_ROUTER);
@@ -222,9 +222,9 @@ class RedirectTest extends TestCase
      */
     public function testWithTypePreservesOtherValues(): void
     {
-        $url = 'https://example.com';
+        $url    = 'https://example.com';
         $target = Redirect::TARGET_PARENT;
-        $code = 307;
+        $code   = 307;
 
         $redirect = new Redirect($url, $target, $code);
         $redirect->withType(Redirect::TYPE_ROUTER);

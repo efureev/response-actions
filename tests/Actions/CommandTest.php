@@ -2,6 +2,7 @@
 
 namespace ResponseActions\Tests\Actions;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use ResponseActions\Actions\Command;
 use ResponseActions\Actions\CommandStatus;
@@ -11,10 +12,11 @@ class CommandTest extends TestCase
     /**
      * Tests the 'done' method when a description is provided.
      */
-    public function testDoneWithDescription(): void
+    #[Test]
+    public function doneWithDescription(): void
     {
         $description = 'Task completed successfully';
-        $command = new Command();
+        $command     = new Command();
         $command->done($description);
 
         $this->assertEquals(CommandStatus::Done, $this->getStatus($command));
@@ -24,10 +26,11 @@ class CommandTest extends TestCase
     /**
      * Tests the 'failed' method when a description is provided.
      */
-    public function testFailedWithDescription(): void
+    #[Test]
+    public function failedWithDescription(): void
     {
         $description = 'Task failed due to error';
-        $command = new Command();
+        $command     = new Command();
         $command->failed($description);
 
         $this->assertEquals(CommandStatus::Failed, $this->getStatus($command));
@@ -37,7 +40,8 @@ class CommandTest extends TestCase
     /**
      * Tests the 'done' method when no description is provided.
      */
-    public function testDoneWithoutDescription(): void
+    #[Test]
+    public function doneWithoutDescription(): void
     {
         $command = new Command();
         $command->done();
@@ -49,7 +53,8 @@ class CommandTest extends TestCase
     /**
      * Tests the 'failed' method when no description is provided.
      */
-    public function testFailedWithoutDescription(): void
+    #[Test]
+    public function failedWithoutDescription(): void
     {
         $command = new Command();
         $command->failed();
@@ -61,9 +66,10 @@ class CommandTest extends TestCase
     /**
      * Tests the 'setStatus' method to set the status to 'Done'.
      */
-    public function testSetStatusToDone(): void
+    #[Test]
+    public function setStatusToDone(): void
     {
-        $command = new Command();
+        $command    = new Command();
         $reflection = new \ReflectionMethod($command, 'setStatus');
         $reflection->setAccessible(true);
         $reflection->invoke($command, CommandStatus::Done);
@@ -74,9 +80,10 @@ class CommandTest extends TestCase
     /**
      * Tests the 'setStatus' method to set the status to 'Failed'.
      */
-    public function testSetStatusToFailed(): void
+    #[Test]
+    public function setStatusToFailed(): void
     {
-        $command = new Command();
+        $command    = new Command();
         $reflection = new \ReflectionMethod($command, 'setStatus');
         $reflection->setAccessible(true);
         $reflection->invoke($command, CommandStatus::Failed);
@@ -87,9 +94,10 @@ class CommandTest extends TestCase
     /**
      * Tests the 'setStatus' method to set the status to 'Pending'.
      */
-    public function testSetStatusToPending(): void
+    #[Test]
+    public function setStatusToPending(): void
     {
-        $command = new Command();
+        $command    = new Command();
         $reflection = new \ReflectionMethod($command, 'setStatus');
         $reflection->setAccessible(true);
         $reflection->invoke($command, CommandStatus::Pending);
@@ -100,10 +108,11 @@ class CommandTest extends TestCase
     /**
      * Tests the 'setDescription' method by setting a non-null value.
      */
-    public function testSetDescriptionWithValue(): void
+    #[Test]
+    public function setDescriptionWithValue(): void
     {
         $description = 'This is a test description';
-        $command = new Command();
+        $command     = new Command();
         $command->setDescription($description);
 
         $this->assertEquals($description, $this->getDescription($command));
@@ -112,7 +121,8 @@ class CommandTest extends TestCase
     /**
      * Tests the 'setDescription' method by setting a null value.
      */
-    public function testSetDescriptionToNull(): void
+    #[Test]
+    public function setDescriptionToNull(): void
     {
         $command = new Command();
         $command->setDescription(null);
@@ -126,7 +136,7 @@ class CommandTest extends TestCase
     private function getStatus(Command $command): CommandStatus
     {
         $reflection = new \ReflectionClass($command);
-        $property = $reflection->getProperty('status');
+        $property   = $reflection->getProperty('status');
         $property->setAccessible(true);
 
         return $property->getValue($command);
@@ -138,7 +148,7 @@ class CommandTest extends TestCase
     private function getDescription(Command $command): ?string
     {
         $reflection = new \ReflectionClass($command);
-        $property = $reflection->getProperty('description');
+        $property   = $reflection->getProperty('description');
         $property->setAccessible(true);
 
         return $property->getValue($command);
@@ -147,10 +157,11 @@ class CommandTest extends TestCase
     /**
      * Tests the 'makeDone' method when a description is provided.
      */
-    public function testMakeDoneWithDescription(): void
+    #[Test]
+    public function makeDoneWithDescription(): void
     {
         $description = 'Completed successfully using makeDone';
-        $command = Command::makeDone($description);
+        $command     = Command::makeDone($description);
 
         $this->assertEquals(CommandStatus::Done, $this->getStatus($command));
         $this->assertEquals($description, $this->getDescription($command));
@@ -159,7 +170,8 @@ class CommandTest extends TestCase
     /**
      * Tests the 'isFailed' method returns true when the status is Failed.
      */
-    public function testIsFailedWhenTrue(): void
+    #[Test]
+    public function ssFailedWhenTrue(): void
     {
         $command = new Command(CommandStatus::Failed);
 
@@ -169,7 +181,8 @@ class CommandTest extends TestCase
     /**
      * Tests the 'isFailed' method returns false when the status is not Failed.
      */
-    public function testIsFailedWhenFalse(): void
+    #[Test]
+    public function isFailedWhenFalse(): void
     {
         $command = new Command(CommandStatus::Done);
 
@@ -179,7 +192,8 @@ class CommandTest extends TestCase
     /**
      * Tests the 'makeDone' method when no description is provided.
      */
-    public function testMakeDoneWithoutDescription(): void
+    #[Test]
+    public function makeDoneWithoutDescription(): void
     {
         $command = Command::makeDone();
 
@@ -190,10 +204,11 @@ class CommandTest extends TestCase
     /**
      * Tests the 'pending' method when a description is provided.
      */
-    public function testPendingWithDescription(): void
+    #[Test]
+    public function pendingWithDescription(): void
     {
         $description = 'Task is pending execution';
-        $command = Command::pending($description);
+        $command     = Command::pending($description);
 
         $this->assertEquals(CommandStatus::Pending, $this->getStatus($command));
         $this->assertEquals($description, $this->getDescription($command));
@@ -202,7 +217,8 @@ class CommandTest extends TestCase
     /**
      * Tests the 'pending' method when no description is provided.
      */
-    public function testPendingWithoutDescription(): void
+    #[Test]
+    public function pendingWithoutDescription(): void
     {
         $command = Command::pending();
 

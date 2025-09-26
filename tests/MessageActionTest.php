@@ -20,9 +20,12 @@ final class MessageActionTest extends TestCase
         self::assertFalse($ra->isError());
         self::assertTrue($ra->is(StatusEnum::INFO));
         self::assertCount(0, $ra->actions());
-        self::assertEquals([
-            'status' => StatusEnum::INFO
-        ], $ra->toArray());
+        self::assertEquals(
+            [
+                'status' => StatusEnum::INFO,
+            ],
+            $ra->toArray()
+        );
     }
 
     #[Test]
@@ -32,16 +35,19 @@ final class MessageActionTest extends TestCase
 
         self::assertTrue($ra->is(StatusEnum::SUCCESS));
         self::assertCount(1, $ra->actions());
-        self::assertEquals([
-            'actions' => [
-                [
-                    'name' => 'message',
-                    'order' => 0,
-                    'message' => 'Operation has done!',
-                    'type' => MessageTypeEnum::SUCCESS,
-                ]
+        self::assertEquals(
+            [
+                'actions' => [
+                    [
+                        'name'    => 'message',
+                        'order'   => 0,
+                        'message' => 'Operation has done!',
+                        'type'    => MessageTypeEnum::SUCCESS,
+                    ],
+                ],
+                'status'  => StatusEnum::SUCCESS,
             ],
-            'status' => StatusEnum::SUCCESS
-        ], $ra->toArray());
+            $ra->toArray()
+        );
     }
 }

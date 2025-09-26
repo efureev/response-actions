@@ -6,7 +6,7 @@ namespace ResponseActions\Actions;
 
 class Command extends AbstractAction
 {
-    public function __construct(
+    final public function __construct(
         protected CommandStatus $status = CommandStatus::Pending,
         protected ?string $description = null
     ) {
@@ -18,7 +18,7 @@ class Command extends AbstractAction
     }
 
     /**
-     * @return array{status:string, description:string}|array{status:string}
+     * @return array{status:CommandStatus, description?:string}
      */
     protected function toActionArray(): array
     {

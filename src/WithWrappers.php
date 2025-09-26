@@ -55,11 +55,17 @@ trait WithWrappers
         return new self(StatusEnum::NOTHING)->addAction(new Redirect($url, $target, $code));
     }
 
+    /**
+     * @param array<string, mixed> $params
+     */
     public static function download(string $url, string $name, array $params = []): self
     {
         return new self(StatusEnum::NOTHING)->addAction(new Download($url, $name, $params));
     }
 
+    /**
+     * @param array<string, mixed> $params
+     */
     public static function event(string $event, array $params = []): self
     {
         return new self(StatusEnum::NOTHING)->addAction(new Event($event, $params));

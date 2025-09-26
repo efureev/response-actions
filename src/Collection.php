@@ -15,21 +15,29 @@ use function array_map;
 use function count;
 use function usort;
 
+/**
+ * @template TKey of array-key
+ * @template TValue of Action
+ * @implements IteratorAggregate<TKey, TValue>
+ */
 final class Collection implements JsonSerializable, Countable, IteratorAggregate
 {
     private int $maxOrder = 0;
 
-    /** @var list<Action> */
+    /** @var array<TKey, TValue> */
     private array $actions = [];
 
     /**
-     * @param Action ...$actions
+     * @param TValue ...$actions
      */
     public function __construct(Action ...$actions)
     {
         $this->addActions(...$actions);
     }
 
+    /**
+     * @param TValue ...$actions
+     */
     public function addActions(Action ...$actions): void
     {
         foreach ($actions as $action) {
@@ -37,6 +45,9 @@ final class Collection implements JsonSerializable, Countable, IteratorAggregate
         }
     }
 
+    /**
+     * @param TValue $action
+     */
     public function addAction(Action $action): void
     {
         $this->updateMaxOrder($action->order());
@@ -62,13 +73,16 @@ final class Collection implements JsonSerializable, Countable, IteratorAggregate
     }
 
     /**
-     * @return list<Action>
+     * @return array<TKey, TValue>
      */
     public function all(): array
     {
         return $this->actions;
     }
 
+    /**
+     * @return TValue|null
+     */
     public function first(): ?Action
     {
         return $this->actions[0] ?? null;
@@ -113,7 +127,7 @@ final class Collection implements JsonSerializable, Countable, IteratorAggregate
     }
 
     /**
-     * @return Traversable<Action>
+     * @return Traversable<TKey,TValue>
      */
     public function getIterator(): Traversable
     {

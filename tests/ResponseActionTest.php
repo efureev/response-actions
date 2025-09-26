@@ -20,9 +20,12 @@ final class ResponseActionTest extends TestCase
         self::assertTrue($ra->isNothing());
         self::assertFalse($ra->isError());
         self::assertCount(0, $ra->actions());
-        self::assertEquals([
-            'status' => StatusEnum::NOTHING,
-        ], $ra->toArray());
+        self::assertEquals(
+            [
+                'status' => StatusEnum::NOTHING,
+            ],
+            $ra->toArray()
+        );
     }
 
     #[Test]
@@ -33,11 +36,14 @@ final class ResponseActionTest extends TestCase
         self::assertFalse($ra->isError());
         self::assertTrue($ra->is(StatusEnum::SUCCESS));
         self::assertCount(0, $ra->actions());
-        self::assertEquals([
-            'actions' => [
-                'status' => StatusEnum::SUCCESS
-            ]
-        ], $ra->wrap('actions'));
+        self::assertEquals(
+            [
+                'actions' => [
+                    'status' => StatusEnum::SUCCESS,
+                ],
+            ],
+            $ra->wrap('actions')
+        );
     }
 
     #[Test]
@@ -49,27 +55,30 @@ final class ResponseActionTest extends TestCase
 
         self::assertTrue($ra->is(StatusEnum::ERROR));
         self::assertCount(2, $ra->actions());
-        self::assertEquals([
-            '_responseAction' =>
+        self::assertEquals(
+            [
+                '_responseAction' =>
                 [
                     'actions' => [
                         [
-                            'name' => 'message',
-                            'order' => 0,
+                            'name'    => 'message',
+                            'order'   => 0,
                             'message' => 'Operation has failed!',
-                            'type' => MessageTypeEnum::ERROR,
+                            'type'    => MessageTypeEnum::ERROR,
                         ],
                         [
-                            'name' => 'message',
-                            'order' => 0,
+                            'name'    => 'message',
+                            'order'   => 0,
                             'message' => 'Try to restart page',
-                            'type' => MessageTypeEnum::INFO,
-                        ]
+                            'type'    => MessageTypeEnum::INFO,
+                        ],
                     ],
-                    'status' => StatusEnum::ERROR,
-                    'extra' => ['value' => 12]
-                ]
-        ], $ra->wrap());
+                    'status'  => StatusEnum::ERROR,
+                    'extra'   => ['value' => 12],
+                ],
+            ],
+            $ra->wrap()
+        );
     }
 
     #[Test]
@@ -94,7 +103,7 @@ final class ResponseActionTest extends TestCase
     #[Test]
     public function testToEncodedString_withDefaultEncoding(): void
     {
-        $ra = new ResponseAction(StatusEnum::SUCCESS);
+        $ra      = new ResponseAction(StatusEnum::SUCCESS);
         $encoded = $ra->toEncodedString();
 
         self::assertNotNull($encoded);
@@ -107,7 +116,7 @@ final class ResponseActionTest extends TestCase
     #[Test]
     public function testToEncodedString_withStandardBase64Encoding(): void
     {
-        $ra = new ResponseAction(StatusEnum::SUCCESS);
+        $ra      = new ResponseAction(StatusEnum::SUCCESS);
         $encoded = $ra->toEncodedString(null, 'b64');
 
         self::assertNotNull($encoded);

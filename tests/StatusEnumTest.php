@@ -2,6 +2,7 @@
 
 namespace ResponseActions\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use ResponseActions\StatusEnum;
 
@@ -13,7 +14,8 @@ class StatusEnumTest extends TestCase
     /**
      * Test that jsonSerialize returns the correct value for SUCCESS.
      */
-    public function testJsonSerializeReturnsSuccessValue()
+    #[Test]
+    public function jsonSerializeReturnsSuccessValue()
     {
         $status = StatusEnum::SUCCESS;
         $this->assertSame('success', $status->jsonSerialize());
@@ -22,7 +24,8 @@ class StatusEnumTest extends TestCase
     /**
      * Test that jsonSerialize returns the correct value for INFO.
      */
-    public function testJsonSerializeReturnsInfoValue()
+    #[Test]
+    public function jsonSerializeReturnsInfoValue()
     {
         $status = StatusEnum::INFO;
         $this->assertSame('info', $status->jsonSerialize());
@@ -31,7 +34,8 @@ class StatusEnumTest extends TestCase
     /**
      * Test that jsonSerialize returns the correct value for ERROR.
      */
-    public function testJsonSerializeReturnsErrorValue()
+    #[Test]
+    public function jsonSerializeReturnsErrorValue()
     {
         $status = StatusEnum::ERROR;
         $this->assertSame('error', $status->jsonSerialize());
@@ -40,7 +44,8 @@ class StatusEnumTest extends TestCase
     /**
      * Test that jsonSerialize returns the correct value for WARNING.
      */
-    public function testJsonSerializeReturnsWarningValue()
+    #[Test]
+    public function jsonSerializeReturnsWarningValue()
     {
         $status = StatusEnum::WARNING;
         $this->assertSame('warning', $status->jsonSerialize());
@@ -49,17 +54,19 @@ class StatusEnumTest extends TestCase
     /**
      * Test that jsonSerialize returns the correct value for NOTHING.
      */
-    public function testJsonSerializeReturnsNothingValue()
+    #[Test]
+    public function jsonSerializeReturnsNothingValue()
     {
         $status = StatusEnum::NOTHING;
         $this->assertSame('', $status->jsonSerialize());
     }
 
 
-/**
- * Test that isNothing returns true for the NOTHING status.
- */
-    public function testIsNothingReturnsTrueForNothing()
+    /**
+     * Test that isNothing returns true for the NOTHING status.
+     */
+    #[Test]
+    public function isNothingReturnsTrueForNothing()
     {
         $status = StatusEnum::NOTHING;
         $this->assertTrue($status->isNothing());
@@ -68,7 +75,8 @@ class StatusEnumTest extends TestCase
     /**
      * Test that isSuccess returns true for the SUCCESS status.
      */
-    public function testIsSuccessReturnsTrueForSuccessStatus()
+    #[Test]
+    public function isSuccessReturnsTrueForSuccessStatus()
     {
         $status = StatusEnum::SUCCESS;
         $this->assertTrue($status->isSuccess());
@@ -77,7 +85,8 @@ class StatusEnumTest extends TestCase
     /**
      * Test that isSuccess returns false for other statuses.
      */
-    public function testIsSuccessReturnsFalseForOtherStatuses()
+    #[Test]
+    public function isSuccessReturnsFalseForOtherStatuses()
     {
         $statuses = [
             StatusEnum::INFO,
@@ -94,7 +103,8 @@ class StatusEnumTest extends TestCase
     /**
      * Test that isError returns true for the ERROR status.
      */
-    public function testIsErrorReturnsTrueForErrorStatus()
+    #[Test]
+    public function isErrorReturnsTrueForErrorStatus()
     {
         $status = StatusEnum::ERROR;
         $this->assertTrue($status->isError());
@@ -103,7 +113,8 @@ class StatusEnumTest extends TestCase
     /**
      * Test that isInfo returns true for the INFO status.
      */
-    public function testIsInfoReturnsTrueForInfoStatus()
+    #[Test]
+    public function isInfoReturnsTrueForInfoStatus()
     {
         $status = StatusEnum::INFO;
         $this->assertTrue($status->isInfo());
@@ -112,7 +123,8 @@ class StatusEnumTest extends TestCase
     /**
      * Test that isInfo returns false for other statuses.
      */
-    public function testIsInfoReturnsFalseForOtherStatuses()
+    #[Test]
+    public function isInfoReturnsFalseForOtherStatuses()
     {
         $statuses = [
             StatusEnum::SUCCESS,
@@ -129,7 +141,8 @@ class StatusEnumTest extends TestCase
     /**
      * Test that isError returns false for other statuses.
      */
-    public function testIsErrorReturnsFalseForOtherStatuses()
+    #[Test]
+    public function isErrorReturnsFalseForOtherStatuses()
     {
         $statuses = [
             StatusEnum::SUCCESS,
@@ -146,7 +159,8 @@ class StatusEnumTest extends TestCase
     /**
      * Test that isWarning returns true for the WARNING status.
      */
-    public function testIsWarningReturnsTrueForWarningStatus()
+    #[Test]
+    public function isWarningReturnsTrueForWarningStatus()
     {
         $status = StatusEnum::WARNING;
         $this->assertTrue($status->isWarning());
@@ -155,7 +169,8 @@ class StatusEnumTest extends TestCase
     /**
      * Test that isWarning returns false for other statuses.
      */
-    public function testIsWarningReturnsFalseForOtherStatuses()
+    #[Test]
+    public function isWarningReturnsFalseForOtherStatuses()
     {
         $statuses = [
             StatusEnum::SUCCESS,
@@ -170,15 +185,16 @@ class StatusEnumTest extends TestCase
     }
 
     /**
- * Test that isNothing returns false for other statuses.
- */
-    public function testIsNothingReturnsFalseForOtherStatuses()
+     * Test that isNothing returns false for other statuses.
+     */
+    #[Test]
+    public function isNothingReturnsFalseForOtherStatuses()
     {
         $statuses = [
-        StatusEnum::SUCCESS,
-        StatusEnum::INFO,
-        StatusEnum::ERROR,
-        StatusEnum::WARNING,
+            StatusEnum::SUCCESS,
+            StatusEnum::INFO,
+            StatusEnum::ERROR,
+            StatusEnum::WARNING,
         ];
 
         foreach ($statuses as $status) {
