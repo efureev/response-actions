@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace ResponseActions\Actions;
 
-/**
- * @method static static make(CommandStatus $status = CommandStatus::Pending, string $description = null)
- */
 class Command extends AbstractAction
 {
     public function __construct(
@@ -25,7 +22,7 @@ class Command extends AbstractAction
      */
     protected function toActionArray(): array
     {
-        $result = ['status' => $this->status->value];
+        $result = ['status' => $this->status];
         if ($this->description !== null) {
             $result['description'] = $this->description;
         }
@@ -33,42 +30,47 @@ class Command extends AbstractAction
         return $result;
     }
 
-    public static function pending(string $description = null): static
+    public static function pending(?string $description = null): static
     {
-        return static::make(CommandStatus::Pending, $description);
+        return new static(CommandStatus::Pending, $description);
     }
 
-    public static function makeFailed(string $description = null): static
+    public static function makeFailed(?string $description = null): static
     {
-        return static::make(CommandStatus::Failed, $description);
+        return new static(CommandStatus::Failed, $description);
     }
 
-    public static function makeDone(string $description = null): static
+    public static function makeDone(?string $description = null): static
     {
-        return static::make(CommandStatus::Done, $description);
+        return new static(CommandStatus::Done, $description);
     }
 
-    public function description(string $description = null): void
+    public function setDescription(?string $description = null): static
     {
         if ($description !== null) {
             $this->description = $description;
         }
-    }
-
-    public function done(string $description = null): static
-    {
-        $this->status = CommandStatus::Done;
-        $this->description($description);
 
         return $this;
     }
 
-    public function failed(string $description = null): static
+    private function setStatus(CommandStatus $status): static
     {
-        $this->status = CommandStatus::Failed;
-        $this->description($description);
+        $this->status = $status;
 
         return $this;
+    }
+
+    public function done(?string $description = null): static
+    {
+        return $this->setStatus(CommandStatus::Done)
+            ->setDescription($description);
+    }
+
+    public function failed(?string $description = null): static
+    {
+        return $this->setStatus(CommandStatus::Failed)
+            ->setDescription($description);
     }
 
     public function isFailed(): bool

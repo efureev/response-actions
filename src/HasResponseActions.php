@@ -8,6 +8,8 @@ use ResponseActions\Actions\Action;
 
 trait HasResponseActions
 {
+    private const StatusEnum DEFAULT_STATUS = StatusEnum::NOTHING;
+
     protected ResponseAction $responseActions;
 
     public function setResponseActions(ResponseAction $responseAction): static
@@ -24,7 +26,7 @@ trait HasResponseActions
 
     public function initResponseActions(Action ...$action): static
     {
-        $this->responseActions = new ResponseAction(StatusEnum::Nothing, ...$action);
+        $this->responseActions = new ResponseAction(self::DEFAULT_STATUS, ...$action);
 
         return $this;
     }

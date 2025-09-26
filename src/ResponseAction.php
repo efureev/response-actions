@@ -9,22 +9,21 @@ use ResponseActions\Actions\Message;
 use ResponseActions\Exceptions\InvalidStringEncoder;
 use ResponseActions\Utils\B64;
 
-use function json_encode;
-
-/**
- * @method static self make(StatusEnum $status = StatusEnum::Nothing, Action ...$action)
- */
 class ResponseAction
 {
-    use Maker;
     use WithExtra;
     use WithWrappers;
 
-    private string $responseKey = '_responseAction';
+    private const string DEFAULT_RESPONSE_KEY = '_responseAction';
+    private const int JSON_FLAGS = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
+    private const string DEFAULT_ENCODING_ALGO = 'b64Safe';
+
+
+    private string $responseKey = self::DEFAULT_RESPONSE_KEY;
 
     private Collection $actions;
 
-    public function __construct(private StatusEnum $status = StatusEnum::Nothing, Action ...$action)
+    public function __construct(private StatusEnum $status = StatusEnum::NOTHING, Action ...$action)
     {
         $this->actions = new Collection(...$action);
     }
@@ -52,24 +51,24 @@ class ResponseAction
             }
         }
 
-        $this->actions->addActions($actions);
+        $this->actions->addActions(...$actions);
 
         return $this;
     }
 
     public function is(StatusEnum $type): bool
     {
-        return $this->status === $type;
+        return $this->status->is($type);
     }
 
     public function isNothing(): bool
     {
-        return $this->is(StatusEnum::Nothing);
+        return $this->status->isNothing();
     }
 
     public function isError(): bool
     {
-        return $this->is(StatusEnum::Error);
+        return $this->status->isError();
     }
 
     /**
@@ -78,18 +77,23 @@ class ResponseAction
     public function toArray(): array
     {
         $result = [
-            'status' => $this->status->value,
+            'status' => $this->status,
         ];
 
-        if (!$this->actions->isEmpty()) {
+        if ($this->hasActions()) {
             $result['actions'] = $this->actions->toArray();
         }
 
-        if (count($this->extra) > 0) {
+        if (!$this->hasNoExtra()) {
             $result['extra'] = $this->extra;
         }
 
         return $result;
+    }
+
+    private function hasActions(): bool
+    {
+        return !$this->actions->isEmpty();
     }
 
     public function wrap(?string $key = null): array
@@ -103,14 +107,15 @@ class ResponseAction
 
     public function toString(?string $key = null): ?string
     {
-        $json = json_encode($this->wrap($key), 320);
+        $json = \json_encode($this->wrap($key), self::JSON_FLAGS);
+
         return $json ?: null;
     }
 
     /**
      * @throws InvalidStringEncoder
      */
-    public function toEncodedString(?string $key = null, string $algo = 'b64Safe'): ?string
+    public function toEncodedString(?string $key = null, string $algo = self::DEFAULT_ENCODING_ALGO): ?string
     {
         $str = $this->toString($key);
         if ($str === null) {
@@ -118,7 +123,7 @@ class ResponseAction
         }
 
         return match ($algo) {
-            'b64Safe' => B64::encodeSafe($str),
+            'b64Safe' => B64::encodeUrlSafe($str),
             'b64' => B64::encode($str),
             default => throw new InvalidStringEncoder($algo),
         };

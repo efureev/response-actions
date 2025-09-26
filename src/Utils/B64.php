@@ -7,25 +7,18 @@ namespace ResponseActions\Utils;
 final class B64
 {
     /**
-     * The last three characters from the alphabet of the standard implementation
-     *
-     * @var string
+     * Tail characters of the standard Base64 alphabet.
      */
-    private const LAST_THREE_STANDARD = '+/=';
+    private const string STANDARD_ALPHABET_SUFFIX = '+/=';
 
     /**
-     * The last three characters from the alphabet of the URL-safe implementation
-     *
-     * @var string
+     * Tail characters of the URL-safe Base64 alphabet.
+     * Note: padding is replaced with '~' to avoid '=' in URLs.
      */
-    private const LAST_THREE_URL_SAFE = '-_~';
+    private const string URL_SAFE_ALPHABET_SUFFIX = '-_~';
 
     /**
-     * Encodes the supplied data to Base64
-     *
-     * @param string $data
-     *
-     * @return string
+     * Encodes the supplied data to Base64 (standard alphabet).
      */
     public static function encode(string $data): string
     {
@@ -33,12 +26,9 @@ final class B64
     }
 
     /**
-     * Decodes the supplied data from Base64
+     * Decodes the supplied data from Base64 (standard alphabet).
      *
-     * @param string $data
-     * @param bool $strict
-     *
-     * @return string|null
+     * @return string|null Returns null if decoding fails (including strict mode failures).
      */
     public static function decode(string $data, bool $strict = false): ?string
     {
@@ -46,38 +36,64 @@ final class B64
     }
 
     /**
-     * Encodes the supplied data to a URL-safe variant of Base64
+     * Encodes the supplied data to a URL-safe variant of Base64.
+     */
+    public static function encodeUrlSafe(string $data): string
+    {
+        $encoded = self::encode($data);
+        return self::mapStandardToUrlSafe($encoded);
+    }
+
+    /**
+     * Decodes the supplied data from a URL-safe variant of Base64.
      *
-     * @param string $data
-     *
-     * @return string
+     * @return string|null Returns null if decoding fails.
+     */
+    public static function decodeUrlSafe(string $data): ?string
+    {
+        $standard = self::mapUrlSafeToStandard($data);
+        return self::decode($standard);
+    }
+
+    /**
+     * Backward-compatible aliases (kept for existing usage/tests).
+     * @deprecated
      */
     public static function encodeSafe(string $data): string
     {
-        $encoded = self::encode($data);
+        return self::encodeUrlSafe($data);
+    }
 
+    /**
+     * Backward-compatible aliases (kept for existing usage/tests).
+     * @deprecated
+     */
+    public static function decodeSafe(string $data): ?string
+    {
+        return self::decodeUrlSafe($data);
+    }
+
+    /**
+     * Maps standard Base64 alphabet to URL-safe variant.
+     */
+    private static function mapStandardToUrlSafe(string $data): string
+    {
         return \strtr(
-            $encoded,
-            self::LAST_THREE_STANDARD,
-            self::LAST_THREE_URL_SAFE
+            $data,
+            self::STANDARD_ALPHABET_SUFFIX,
+            self::URL_SAFE_ALPHABET_SUFFIX
         );
     }
 
     /**
-     * Decodes the supplied data from a URL-safe variant of Base64
-     *
-     * @param string $data
-     *
-     * @return string|null
+     * Maps URL-safe Base64 alphabet back to standard.
      */
-    public static function decodeSafe(string $data): ?string
+    private static function mapUrlSafeToStandard(string $data): string
     {
-        $data = \strtr(
+        return \strtr(
             $data,
-            self::LAST_THREE_URL_SAFE,
-            self::LAST_THREE_STANDARD
+            self::URL_SAFE_ALPHABET_SUFFIX,
+            self::STANDARD_ALPHABET_SUFFIX
         );
-
-        return self::decode($data);
     }
 }

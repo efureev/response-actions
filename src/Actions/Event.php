@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace ResponseActions\Actions;
 
-/**
- * @method static static make(string $event, array $params = [])
- */
 class Event extends AbstractAction
 {
     use WithParams;
 
     public function __construct(
         protected string $event,
+        /** @var array<string, mixed> $params */
         array $params = []
     ) {
         $this->params = $params;

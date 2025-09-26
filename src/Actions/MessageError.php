@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace ResponseActions\Actions;
 
-/**
- * @method static static make(string $message, int|string $code = null)
- */
 class MessageError extends Message
 {
+    private const int DEFAULT_EMPTY_INT_CODE = 0;
+
     public function __construct(string $message, private int|string|null $code = null)
     {
-        parent::__construct($message, MessageTypeEnum::Error);
+        parent::__construct($message, MessageTypeEnum::ERROR);
     }
 
     public function code(): int|string|null
@@ -19,32 +18,45 @@ class MessageError extends Message
         return $this->code;
     }
 
-    public function setCode(int|string $code): void
+    public function withCode(int|string|null $code): static
     {
         $this->code = $code;
+
+        return $this;
     }
 
     /**
-     * @return array{message:string, type?:string, code?:int|string|null}
+     * @return array{
+     *   message:string,
+     *   type?:string,
+     *   extra?:array<string, mixed>,
+     *   code?:int|string|null
+     * }
      */
     protected function toActionArray(): array
     {
         $result = parent::toActionArray();
-        if (!$this->isEmptyCode()) {
+
+        if ($this->hasCode()) {
             $result['code'] = $this->code;
         }
 
         return $result;
     }
 
-    private function isEmptyCode(): bool
+    private function hasCode(): bool
+    {
+        return !$this->hasNoCode();
+    }
+
+    private function hasNoCode(): bool
     {
         if (is_string($this->code)) {
             return $this->code === '';
         }
 
         if (is_int($this->code)) {
-            return $this->code === 0;
+            return $this->code === self::DEFAULT_EMPTY_INT_CODE;
         }
 
         return $this->code === null;

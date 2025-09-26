@@ -4,15 +4,52 @@ declare(strict_types=1);
 
 namespace ResponseActions;
 
-enum StatusEnum: string
+use JsonSerializable;
+
+enum StatusEnum: string implements JsonSerializable
 {
-    case Success = 'success';
+    case SUCCESS = 'success';
 
-    case Info = 'info';
+    case INFO = 'info';
 
-    case Error = 'error';
+    case ERROR = 'error';
 
-    case Warning = 'warning';
+    case WARNING = 'warning';
 
-    case Nothing = '';
+    case NOTHING = '';
+
+    public function is(StatusEnum $type): bool
+    {
+        return $this === $type;
+    }
+
+    public function isSuccess(): bool
+    {
+        return $this === self::SUCCESS;
+    }
+
+    public function isError(): bool
+    {
+        return $this === self::ERROR;
+    }
+
+    public function isInfo(): bool
+    {
+        return $this === self::INFO;
+    }
+
+    public function isWarning(): bool
+    {
+        return $this === self::WARNING;
+    }
+
+    public function isNothing(): bool
+    {
+        return $this === self::NOTHING;
+    }
+
+    public function jsonSerialize(): string
+    {
+        return $this->value;
+    }
 }

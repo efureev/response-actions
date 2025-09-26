@@ -6,7 +6,13 @@ namespace ResponseActions;
 
 interface ShouldHasHttpCode
 {
-    public function getHttpCode(): int;
+    /**
+     * HTTP status code getter.
+     */
+    public function getStatusCode(): int;
 
-    public function setHttpCode(int $code): static;
+    /**
+     * Fluent setter for HTTP status code.
+     */
+    public function withStatusCode(int $statusCode): static;
 }
