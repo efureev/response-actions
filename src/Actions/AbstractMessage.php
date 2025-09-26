@@ -41,23 +41,19 @@ abstract class AbstractMessage extends AbstractAction
 
     /**
      * @return array{
-     *   message:string,
+     *   message:string|JsonSerializable,
      *   type?:MessageTypeEnum,
      *   extra?:array<string, mixed>
      * }
      */
     protected function toActionArray(): array
     {
-        return [
-            'message' => $this->isString()
-                ? (string)$this->message
-                : $this->message,
-        ] + $this->addOptionalFields();
-    }
+        /** @var string|JsonSerializable $msg */
+        $msg = is_string($this->message) || $this->message instanceof Stringable
+            ? (string)$this->message
+            : $this->message;
 
-    protected function isString(): bool
-    {
-        return is_string($this->message) || $this->message instanceof Stringable;
+        return ['message' => $msg] + $this->addOptionalFields();
     }
 
     /**

@@ -33,7 +33,7 @@ final class MessageError extends AbstractMessage
 
     /**
      * @return array{
-     *   message:string,
+     *   message:string|\JsonSerializable,
      *   type?:MessageTypeEnum,
      *   extra?:array<string, mixed>,
      *   code?:int|string|null
