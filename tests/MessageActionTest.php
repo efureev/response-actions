@@ -4,35 +4,33 @@ declare(strict_types=1);
 
 namespace ResponseActions\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use ResponseActions\Actions\MessageTypeEnum;
 use ResponseActions\ResponseAction;
 use ResponseActions\StatusEnum;
 
 final class MessageActionTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function makeInfo(): void
     {
-        $ra = ResponseAction::make(StatusEnum::Info);
+        $ra = new ResponseAction(StatusEnum::INFO);
         self::assertFalse($ra->isNothing());
         self::assertFalse($ra->isError());
-        self::assertTrue($ra->is(StatusEnum::Info));
+        self::assertTrue($ra->is(StatusEnum::INFO));
         self::assertCount(0, $ra->actions());
         self::assertEquals([
-            'status' => 'info'
+            'status' => StatusEnum::INFO
         ], $ra->toArray());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function successMessage(): void
     {
         $ra = ResponseAction::successMessage('Operation has done!');
 
-        self::assertTrue($ra->is(StatusEnum::Success));
+        self::assertTrue($ra->is(StatusEnum::SUCCESS));
         self::assertCount(1, $ra->actions());
         self::assertEquals([
             'actions' => [
@@ -40,10 +38,10 @@ final class MessageActionTest extends TestCase
                     'name' => 'message',
                     'order' => 0,
                     'message' => 'Operation has done!',
-                    'type' => 'success',
+                    'type' => MessageTypeEnum::SUCCESS,
                 ]
             ],
-            'status' => 'success'
+            'status' => StatusEnum::SUCCESS
         ], $ra->toArray());
     }
 }

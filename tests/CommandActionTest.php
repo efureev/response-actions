@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace ResponseActions\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use ResponseActions\Actions\Command;
 use ResponseActions\Actions\CommandStatus;
 use ResponseActions\ResponseAction;
+use ResponseActions\StatusEnum;
 
 final class CommandActionTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function create(): void
     {
         $action = new Command(CommandStatus::Done);
@@ -23,13 +23,11 @@ final class CommandActionTest extends TestCase
         self::assertEquals([
             'name' => 'cmd',
             'order' => 0,
-            'status' => 'done',
+            'status' => CommandStatus::Done,
         ], $action->toArray());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function make(): void
     {
         $action = Command::makeFailed('Test');
@@ -39,14 +37,12 @@ final class CommandActionTest extends TestCase
         self::assertEquals([
             'name' => 'cmd',
             'order' => 0,
-            'status' => 'failed',
+            'status' => CommandStatus::Failed,
             'description' => 'Test',
         ], $action->toArray());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function makeCmdDone(): void
     {
         $ra = ResponseAction::cmdDone();
@@ -57,10 +53,10 @@ final class CommandActionTest extends TestCase
                 [
                     'name' => 'cmd',
                     'order' => 0,
-                    'status' => 'done',
+                    'status' => CommandStatus::Done,
                 ]
             ],
-            'status' => 'success'
+            'status' => StatusEnum::SUCCESS
         ], $ra->toArray());
     }
 }
