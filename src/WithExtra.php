@@ -6,8 +6,14 @@ namespace ResponseActions;
 
 trait WithExtra
 {
+    /**
+     * @var array<string, mixed>
+     */
     protected array $extra = [];
 
+    /**
+     * @param array<string, mixed> $extra
+     */
     public function withExtra(array $extra): static
     {
         $this->extra = $extra;
@@ -15,8 +21,11 @@ trait WithExtra
         return $this;
     }
 
-    public function isExtraEmpty(): bool
+    /**
+     * True when no extra data is present.
+     */
+    public function hasNoExtra(): bool
     {
-        return count($this->extra) === 0;
+        return empty($this->extra);
     }
 }

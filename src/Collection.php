@@ -7,6 +7,7 @@ namespace ResponseActions;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
+use JsonSerializable;
 use ResponseActions\Actions\Action;
 use Traversable;
 
@@ -14,40 +15,55 @@ use function array_map;
 use function count;
 use function usort;
 
-final class Collection implements \JsonSerializable, Countable, IteratorAggregate
+/**
+ * @template TKey of array-key
+ * @template TValue of Action
+ * @implements IteratorAggregate<TKey, TValue>
+ */
+final class Collection implements JsonSerializable, Countable, IteratorAggregate
 {
     private int $maxOrder = 0;
 
+    /** @var array<TKey, TValue> */
     private array $actions = [];
 
     /**
-     * @param Action ...$actions
+     * @param TValue ...$actions
      */
     public function __construct(Action ...$actions)
     {
-        $this->addActions($actions);
+        $this->addActions(...$actions);
     }
 
-    public function addActions(array $actions): void
+    /**
+     * @param TValue ...$actions
+     */
+    public function addActions(Action ...$actions): void
     {
         foreach ($actions as $action) {
             $this->addAction($action);
         }
     }
 
+    /**
+     * @param TValue $action
+     */
     public function addAction(Action $action): void
     {
-        $this->changeMaxOrder($action->order());
+        $this->updateMaxOrder($action->order());
 
         $this->actions[] = $action;
     }
 
-    private function changeMaxOrder(int $actionOrder): void
+    private function updateMaxOrder(int $actionOrder): void
     {
-        if ($actionOrder !== 0) {
-            if ($this->isEmpty() || $this->maxOrder < $actionOrder) {
-                $this->maxOrder = $actionOrder;
-            }
+        if ($actionOrder === 0) {
+            return;
+        }
+
+
+        if ($this->isEmpty() || $this->maxOrder < $actionOrder) {
+            $this->maxOrder = $actionOrder;
         }
     }
 
@@ -56,12 +72,23 @@ final class Collection implements \JsonSerializable, Countable, IteratorAggregat
         return $this->count() === 0;
     }
 
+    /**
+     * @return array<TKey, TValue>
+     */
     public function all(): array
     {
         return $this->actions;
     }
 
-    public function sort(): void
+    /**
+     * @return TValue|null
+     */
+    public function first(): ?Action
+    {
+        return $this->actions[0] ?? null;
+    }
+
+    public function sortByOrder(): void
     {
         if ($this->maxOrder === 0) {
             return;
@@ -69,7 +96,10 @@ final class Collection implements \JsonSerializable, Countable, IteratorAggregat
 
         usort(
             $this->actions,
-            fn(Action $a, Action $b) => $a->order() <=> $b->order()
+            static function (Action $a, Action $b): int {
+                $byOrder = $a->order() <=> $b->order();
+                return $byOrder !== 0 ? $byOrder : ($a->name() <=> $b->name());
+            }
         );
     }
 
@@ -78,7 +108,8 @@ final class Collection implements \JsonSerializable, Countable, IteratorAggregat
      */
     public function toArray(): array
     {
-        $this->sort();
+        $this->sortByOrder();
+
         return array_map(fn(Action $action) => $action->toArray(), $this->actions);
     }
 
@@ -96,7 +127,7 @@ final class Collection implements \JsonSerializable, Countable, IteratorAggregat
     }
 
     /**
-     * @return Traversable<Action>
+     * @return Traversable<TKey,TValue>
      */
     public function getIterator(): Traversable
     {

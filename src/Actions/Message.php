@@ -6,76 +6,34 @@ namespace ResponseActions\Actions;
 
 use ResponseActions\WithExtra;
 
-/**
- * @method static static make(string $message, MessageTypeEnum $type = MessageTypeEnum::Nothing)
- */
-class Message extends AbstractAction
+final class Message extends AbstractMessage
 {
-    use WithExtra;
-
     public function __construct(
-        public readonly string $message,
-        protected MessageTypeEnum $type = MessageTypeEnum::Nothing
+        string $message,
+        MessageTypeEnum $type = MessageTypeEnum::NOTHING
     ) {
-    }
+        parent::__construct($message);
 
-    public function isNothing(): bool
-    {
-        return $this->type === MessageTypeEnum::Nothing;
-    }
-
-    public function setType(MessageTypeEnum $type): void
-    {
         $this->type = $type;
     }
 
-    public function getType(): MessageTypeEnum
+    public static function info(string $message): self
     {
-        return $this->type;
+        return new self($message, MessageTypeEnum::INFO);
     }
 
-    public function setTypeFromString(string $value): void
+    public static function success(string $message): self
     {
-        $type = MessageTypeEnum::tryFrom($value);
-        if ($type !== null) {
-            $this->setType($type);
-        }
+        return new self($message, MessageTypeEnum::SUCCESS);
     }
 
-    /**
-     * @return array{message:string}|array{message:string, type:string}
-     */
-    protected function toActionArray(): array
+    public static function error(string $message): self
     {
-        $result = ['message' => $this->message];
-        if (!$this->isNothing()) {
-            $result['type'] = $this->type->value;
-        }
-
-        if (!$this->isExtraEmpty()) {
-            $result['extra'] = $this->extra;
-        }
-
-        return $result;
+        return new self($message, MessageTypeEnum::ERROR);
     }
 
-    public static function info(string $message): static
+    public static function warn(string $message): self
     {
-        return static::make($message, MessageTypeEnum::Info);
-    }
-
-    public static function success(string $message): static
-    {
-        return static::make($message, MessageTypeEnum::Success);
-    }
-
-    public static function error(string $message): static
-    {
-        return static::make($message, MessageTypeEnum::Error);
-    }
-
-    public static function warn(string $message): static
-    {
-        return static::make($message, MessageTypeEnum::Warning);
+        return new self($message, MessageTypeEnum::WARNING);
     }
 }
