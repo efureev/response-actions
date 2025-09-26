@@ -1,6 +1,6 @@
 # Response Action
 
-![](https://img.shields.io/badge/php-8.1|8.2-blue.svg)
+![](https://img.shields.io/badge/php-8.4-blue.svg)
 [![PHP Package](https://github.com/efureev/response-actions/actions/workflows/php.yml/badge.svg)](https://github.com/efureev/response-actions/actions/workflows/php.yml)
 [![Build Status](https://travis-ci.org/efureev/response-actions.svg?branch=master)](https://travis-ci.org/efureev/response-actions)
 [![Latest Stable Version](https://poser.pugx.org/efureev/response-actions/v/stable?format=flat)](https://packagist.org/packages/efureev/response-actions)
